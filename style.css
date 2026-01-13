@@ -1,4 +1,5 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Merriweather&family=Montserrat:wght@400;700&family=Source+Code+Pro&display=swap');
+@import "tailwindcss";
 
 :root {
   --background: #f8f5f0;
@@ -63,7 +64,7 @@
   --popover: #2d3a2e;
   --popover-foreground: #f0ebe5;
   --primary: #4caf50;
-  --primary-foreground: #0a1f0c;
+  --primary-foreground:   ;
   --secondary: #3e4a3d;
   --secondary-foreground: #d7e0d6;
   --muted: #252f26;
