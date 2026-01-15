@@ -1,5 +1,6 @@
 const $ = <T extends HTMLElement>(selector:string)=> document.querySelector<T>(selector)!
 type form_data = {
+    id:number,
     fn:string,
     ln:string,
     email:string,
@@ -7,7 +8,8 @@ type form_data = {
     reason:string,
     date:string
 }
-const requests : form_data[] = []
+let REQUESTS_COUNTER = 0
+let requests : form_data[] = []
 const table_body = $("#table-body")
 
 const form = $<HTMLFormElement>("#form")
@@ -15,34 +17,27 @@ const last_name = $<HTMLInputElement>("#nom")
 const first_name  = $<HTMLInputElement>("#prenom")
 const email = $<HTMLInputElement>("#email")
 const tel = $<HTMLInputElement>("#telephone")
+tel.addEventListener("input" , ()=>{
+    tel.value = tel.value.replace(/[^0-9]/g, '')
+})
 const reason = $<HTMLInputElement>("#motif")
 const date = $<HTMLInputElement>("#date")
 const submit_handler = (ev:SubmitEvent)=>{
     ev.preventDefault()
-    if(!validate(first_name)){
-        first_name.setCustomValidity("prenom invalid") 
+
+    if(!form.checkValidity()){
+        form.reportValidity()
         return
     }
-    if(!validate(last_name)){
-        last_name.setCustomValidity("Nom invalid") 
+
+    if(tel.value.match(/\D/)){
+        tel.setCustomValidity("Please enter a valid phone number")
+        tel.reportValidity()
+        tel.setCustomValidity("")
         return
     }
-    if(!validate(email)){
-        email.setCustomValidity("email invalid") 
-        return
-    }
-    if(!validate(tel)){
-        tel.setCustomValidity("telephone invalid") 
-        return
-    }
-    if(!validate(reason)){
-        reason.setCustomValidity("motif invalid") 
-        return
-    }
-    if(!validate(date)){
-        date.setCustomValidity("date invalid") 
-        return
-    }
+
+
 
     const data : form_data = {
         fn:first_name.value,
@@ -50,7 +45,8 @@ const submit_handler = (ev:SubmitEvent)=>{
         email:email.value,
         tel:Number(tel.value),
         date:date.value,
-        reason:reason.value
+        reason:reason.value,
+        id:REQUESTS_COUNTER++
     }
 
     requests.push(data)
@@ -62,10 +58,7 @@ const submit_handler = (ev:SubmitEvent)=>{
 
 
 
-function validate(field:HTMLInputElement):boolean{
-    if(!field.value && field.value.trim()==="") return false
-    return true
-}
+
 form.addEventListener("submit" , submit_handler)
 
 
@@ -99,6 +92,11 @@ function add_request(data:form_data){
     </td>
 </tr>
 `
+const delete_btn = row.querySelector("button")
+delete_btn?.addEventListener("click" , ()=>{
+    row.remove()
+    requests = requests.filter((r)=>r.id !== data.id)
+})
 
-table_body.appendChild(row.cloneNode(true))
+table_body.appendChild(row)
 }
