@@ -183,3 +183,11 @@ label[required]::after{
 a{
   text-decoration: none;
 }
+
+input:user-invalid{
+  outline-color: var(--destructive);
+}
+input:user-valid{
+  outline-color: var(--primary);
+  outline: 2px solid;
+}

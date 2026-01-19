@@ -1,4 +1,4 @@
-import { LitElement, css, unsafeCSS } from "lit";
+import { LitElement,  } from "lit";
 // import tailwindStyles from "../index.css?inline";
 
 class TailwindElement extends LitElement {
