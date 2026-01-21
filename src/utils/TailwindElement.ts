@@ -6,7 +6,7 @@ class TailwindElement extends LitElement {
     // ${unsafeCSS(tailwindStyles)}
   // `;
   
-  protected createRenderRoot(): HTMLElement | DocumentFragment {
+  protected createRenderRoot() {
     return this;
   }
 }
