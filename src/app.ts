@@ -4,6 +4,7 @@ import TailwindElement from "./utils/TailwindElement";
 import "./components/Table"
 import "./components/Form"
 import "./components/ToastContainer"
+import "./components/Pagination"
 @customElement("x-app")
 class App extends TailwindElement {
   protected render() {
@@ -24,6 +25,7 @@ class App extends TailwindElement {
         </nav>
         <x-table>
         </x-table>
+        <x-pagination></x-pagination>
       </main>
     `;
   }

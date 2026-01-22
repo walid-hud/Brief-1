@@ -5,7 +5,7 @@ export class ProxyStoreController implements ReactiveController {
 
   constructor(
     private host: ReactiveControllerHost,
-    private store: { state: any; subscribe: (cb: () => void) => () => void }
+    private store: { state:any, subscribe: (cb: () => void) => () => void }
   ) {
     host.addController(this);
   }
@@ -16,7 +16,9 @@ export class ProxyStoreController implements ReactiveController {
 
   hostConnected() {
     this.unsubscribe = this.store.subscribe(() => {
-      this.host.requestUpdate();        
+      this.host.requestUpdate();  
+      console.info("state changed")
+      console.table(this.store.state)      
     });
   }
 

@@ -1,4 +1,4 @@
-import { html,  } from "lit";
+import { html } from "lit";
 import { customElement, } from "lit/decorators.js";
 import TailwindElement from "../utils/TailwindElement";
 import { store } from "../state/store";
@@ -8,9 +8,21 @@ import { delete_data_row } from "../services/localstorage";
 @customElement("x-table")
 export default class Table extends TailwindElement {
   store = new ProxyStoreController(this , store)
+
+  get paginated_data(){
+    const start = (store.state.current_page - 1) * store.state.rows_per_page
+    const end = start + store.state.rows_per_page
+    return store.state.rows.slice(start , end)
+  }
+  get total_pages(){
+    return Math.ceil(store.state.rows.length / store.state.rows_per_page)
+  }
+
   delete_row(id:number){
-    store.state = store.state.filter((row)=>row.id !== id)
-    this.requestUpdate()
+    store.state.rows = store.state.rows.filter((row)=>row.id !== id)
+    if(store.state.current_page > this.total_pages){
+      store.state.current_page = 1
+    }
     delete_data_row(id)
     toast("item deleted successfully" , 4000, "success" );
   }
@@ -18,7 +30,7 @@ export default class Table extends TailwindElement {
   return html`
     <section id="requests" >
       <div
-        class="bg-card mt-18 rounded-(--radius) border border-border p-4"
+        class="bg-card mt-10  ease-in-out rounded-(--radius) border border-border p-4"
       >
 
         <div
@@ -33,14 +45,14 @@ export default class Table extends TailwindElement {
           <div class="text-center">Action</div>
         </div>
         <div>
-          ${store.state.length > 0 ? 
-            store.state.map(
-            (row) => html`
-              <div 
+          ${this.paginated_data.length > 0 ? 
+            this.paginated_data.map(
+            (row) =>  html`
+              <div
                 class="
                   grid grid-cols-2 md:grid-cols-7
                   bg-background  items-center rounded-(--radius)
-                   py-2 gap-2 text-sm font-medium
+                   py-2 gap-2 text-sm 
                 "
               >
                 <div class="md:hidden font-semibold">Nom</div>
@@ -84,8 +96,8 @@ export default class Table extends TailwindElement {
                   </button>
                 </div>
               </div>
-            `
-          ): 
+            `)
+          : 
           html`
             <p class="text-center text-lg py-12 text-foreground/50">
               Rien ajouté pour le moment

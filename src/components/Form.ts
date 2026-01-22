@@ -43,7 +43,7 @@ class Form extends TailwindElement {
       this.form.reportValidity();
       return;
     }
-    store.state.push(data);
+    store.state.rows.push(data);
     save_data_row(data)
     toast("item added successfully" , 4000, "success" );
     this._close();
@@ -88,7 +88,7 @@ class Form extends TailwindElement {
       flex gap-x-2 items-center text-sm lg:text-lg font-medium bg-input  rounded-(--radius) px-2 py-2
       cursor-pointer hover:bg-input/60 transition-all duration-300 ease-in-out
        text-foreground active:scale-105 disabled:opacity-60 disabled:pointer-events-none pointer-events-auto
-        border border-muted-foreground shadow-md
+        border border-muted-foreground shadow-md 
        "
         .disabled=${this.is_opened}
         @click=${this._toggle}
@@ -116,6 +116,7 @@ class Form extends TailwindElement {
         ${animate()}
         class="
         scale-100
+        z-10
         fixed pointer-events-auto top-0 left-0 
         w-screen h-screen backdrop-blur-md backdrop-brightness-75
         ${this.is_opened
@@ -123,14 +124,14 @@ class Form extends TailwindElement {
           : " opacity-0 pointer-events-none"}
         "
       >
-        <div class="flex items-center justify-center h-screen">
+        <div class="flex items-center justify-center h-screen ">
           <form
             @submit=${this._on_submit}
             class="
                 bg-card md:w-1/3 w-full
                 px-3 py-4 rounded-(--radius)
                 flex flex-col gap-y-4
-                *:flex  *:flex-col
+                *:flex  *:flex-col  
                 *:[&>label]:text-xs *:[&>label]:text-muted-foreground 
                 *:[&>input]:bg-input *:[&>input]:px-2 *:[&>input]:py-2 *:[&>input]:rounded-md  
                 *:[&>input]:w-full

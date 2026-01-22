@@ -165,8 +165,8 @@
 body::-webkit-scrollbar{
   display: none;
 }
-body{
-  overscroll-behavior: none;
+*{
+  overscroll-behavior: none !important;
 }
 
 
@@ -192,3 +192,4 @@ input:user-valid{
   outline-color: var(--primary);
   outline: 2px solid;
 }
+

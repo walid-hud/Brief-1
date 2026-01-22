@@ -19,14 +19,14 @@ export default class ToastContainer extends TailwindElement {
     return html`
       <div
         id="toast-container"
-        class="fixed top-0 left-0 w-screen h-screen flex items-end flex-col   z-9999 pointer-events-none"
+        class="fixed top-0 left-0 w-screen h-screen flex items-center flex-col   z-9999 pointer-events-none"
       >
         ${this.toasts.map(({ id, message , variant }) => {
           return html`
             <div
               id=${id}
               class="
-              w-full transition-all duration-300 lg:w-1/4 flex justify-between text-secondary relative rounded-(--radius) mb-2 right-2 top-2 py-3 px-3
+              w-full transition-all duration-300 lg:w-1/4 flex justify-between text-secondary relative rounded-(--radius) mb-2  top-2 py-3 px-3
               ${variant === "success" ? "bg-primary" : "bg-destructive"}
               "
             >

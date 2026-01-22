@@ -45,13 +45,13 @@ function delete_data_row(id: number): boolean{
     try{
         const data  = localStorage.getItem(STORAGE_KEY)   
         if(!data) return false
-        const parsedData = JSON.parse(data)
-        if(typeof parsedData !== "object" || !Array.isArray(parsedData) ||
-         !(parsedData as RowData[]).every((item)=> typeof item === "object")) {
+        const parsed_data = JSON.parse(data)
+        if(typeof parsed_data !== "object" || !Array.isArray(parsed_data) ||
+         !(parsed_data as RowData[]).every((item)=> typeof item === "object")) {
             return false
         }
-        const filteredData = (parsedData as RowData[]).filter(item => item.id !== id)
-        localStorage.setItem(STORAGE_KEY , JSON.stringify(filteredData))
+        const filtered_data = (parsed_data as RowData[]).filter(item => item.id !== id)
+        localStorage.setItem(STORAGE_KEY , JSON.stringify(filtered_data))
         return true
     }catch(e){
         console.error(e)
