@@ -22,6 +22,8 @@ class Form extends TailwindElement {
   private _on_escape(ev: KeyboardEvent) {
     if (ev.key === "Escape") {
       this._close();
+      this.form.querySelectorAll("input").forEach(e=>e.blur())
+      this.form.blur()
     }
   }
 
@@ -141,7 +143,7 @@ class Form extends TailwindElement {
                   "
             >
               <div>
-                <label for="fn"> Prenom </label>
+                <label required for="fn"> Prenom </label>
                 <input
                   @change=${this._on_text_input_change}
                   required
@@ -151,7 +153,7 @@ class Form extends TailwindElement {
                 />
               </div>
               <div>
-                <label for="ln"> Nom </label>
+                <label required for="ln"> Nom </label>
                 <input
                   @change=${this._on_text_input_change}
                   required
@@ -162,7 +164,7 @@ class Form extends TailwindElement {
               </div>
             </div>
             <div>
-              <label for="reason"> Motif </label>
+              <label required for="reason"> Motif </label>
               <input
                 @change=${this._on_text_input_change}
                 required
@@ -172,12 +174,12 @@ class Form extends TailwindElement {
               />
             </div>
             <div>
-              <label for="date"> Date </label>
+              <label required for="date"> Date </label>
               <input required type="date" id="date" />
             </div>
 
             <div>
-              <label for="tel"> Telephone </label>
+              <label required for="tel"> Telephone </label>
               <input
                 @change=${this._on_tel_input_change}
                 autocomplete="on"
@@ -190,8 +192,9 @@ class Form extends TailwindElement {
             </div>
 
             <div>
-              <label for="email"> Email </label>
+              <label required for="email"> Email </label>
               <input
+                spellcheck="false"
                 autocomplete="on"
                 required
                 type="email"

@@ -172,6 +172,7 @@ body{
 
 label[required]{
   position: relative;
+  width: fit-content;
 }
 label[required]::after{
   content: "*";
