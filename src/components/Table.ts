@@ -24,7 +24,7 @@ export default class Table extends TailwindElement {
       store.state.current_page = 1
     }
     delete_data_row(id)
-    toast("item deleted successfully" , 4000, "success" );
+    toast("item deleted successfully" , 2000, "success" );
   }
   render() {
   return html`

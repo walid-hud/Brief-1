@@ -43,9 +43,9 @@ class Form extends TailwindElement {
       this.form.reportValidity();
       return;
     }
-    store.state.rows.push(data);
+    store.state.rows.unshift(data);
     save_data_row(data)
-    toast("item added successfully" , 4000, "success" );
+    toast("item added successfully" , 2000, "success" );
     this._close();
     this.form.reset();
   }
