@@ -13,7 +13,14 @@ export default class ToastContainer extends TailwindElement {
     setTimeout(() => this.remove_toast(id), duration);
   }
   remove_toast(id: number) {
-    this.toasts = this.toasts.filter((toast) => toast.id !== id);
+    const toastElement = this.querySelector(`#toast-${id}`);
+    if (toastElement) {
+      toastElement.classList.remove("toast-fly-in");
+      toastElement.classList.add("toast-fly-out");
+      setTimeout(() => {
+        this.toasts = this.toasts.filter((toast) => toast.id !== id);
+      }, 500);
+    }
   }
   render() {
     return html`
@@ -24,9 +31,9 @@ export default class ToastContainer extends TailwindElement {
         ${this.toasts.map(({ id, message , variant }) => {
           return html`
             <div
-              id=${id}
+              id=toast-${id}
               class="
-              w-full transition-all duration-300 lg:w-1/4 flex justify-between text-secondary relative rounded-(--radius) mb-2  top-2 py-3 px-3
+              w-full duration-300 lg:w-1/4 flex justify-between text-secondary relative rounded-(--radius) mb-2  top-2 py-3 px-3 toast-fly-in
               ${variant === "success" ? "bg-primary" : "bg-destructive"}
               "
             >

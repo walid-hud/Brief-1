@@ -17,8 +17,6 @@ export class ProxyStoreController implements ReactiveController {
   hostConnected() {
     this.unsubscribe = this.store.subscribe(() => {
       this.host.requestUpdate();  
-      console.info("state changed")
-      console.table(this.store.state)      
     });
   }
 
