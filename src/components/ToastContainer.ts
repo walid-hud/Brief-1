@@ -18,6 +18,7 @@ export default class ToastContainer extends TailwindElement {
       toastElement.classList.remove("toast-fly-in");
       toastElement.classList.add("toast-fly-out");
       setTimeout(() => {
+        (toastElement as HTMLElement).style.display = "none"
         this.toasts = this.toasts.filter((toast) => toast.id !== id);
       }, 500);
     }
@@ -26,14 +27,14 @@ export default class ToastContainer extends TailwindElement {
     return html`
       <div
         id="toast-container"
-        class="fixed top-0 left-0 w-screen h-screen flex items-center flex-col   z-9999 pointer-events-none"
+        class="fixed  px-4 w-screen h-screen flex items-center flex-col   z-9999 pointer-events-none"
       >
         ${this.toasts.map(({ id, message , variant }) => {
           return html`
             <div
               id=toast-${id}
               class="
-              w-full duration-300 lg:w-1/4 flex justify-between text-secondary relative rounded-(--radius) mb-2  top-2 py-3 px-3 toast-fly-in
+              w-full lg:w-1/4 flex justify-between text-secondary relative rounded-(--radius) mb-2  top-2 py-3 px-3 toast-fly-in
               ${variant === "success" ? "bg-primary" : "bg-destructive"}
               "
             >

@@ -33,7 +33,7 @@ class Pagination extends TailwindElement {
     const pages = Array.from({ length: this.total_pages }, (_, i) => i + 1);
 
     return html`
-      <div class="w-full flex justify-center gap-x-2 mt-6 items-center fixed bottom-6 ">
+      <div class="w-full flex justify-center gap-x-2 mt-2 items-center  ">
         <button
           @click=${this._prev}
           ?disabled=${store.state.current_page === 1}
