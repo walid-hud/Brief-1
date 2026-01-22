@@ -4,12 +4,14 @@ import TailwindElement from "../utils/TailwindElement";
 import { store } from "../state/store";
 import { ProxyStoreController } from "../controllers/store.controller";
 import { toast } from "../utils";
+import { delete_data_row } from "../services/localstorage";
 @customElement("x-table")
 export default class Table extends TailwindElement {
   store = new ProxyStoreController(this , store)
   delete_row(id:number){
     store.state = store.state.filter((row)=>row.id !== id)
     this.requestUpdate()
+    delete_data_row(id)
     toast("item deleted successfully" , 4000, "success" );
   }
   render() {

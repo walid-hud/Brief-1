@@ -41,4 +41,22 @@ function get_data_rows():RowData[]{
     }
 }
 
-export { save_data_row , get_data_rows }
+function delete_data_row(id: number): boolean{
+    try{
+        const data  = localStorage.getItem(STORAGE_KEY)   
+        if(!data) return false
+        const parsedData = JSON.parse(data)
+        if(typeof parsedData !== "object" || !Array.isArray(parsedData) ||
+         !(parsedData as RowData[]).every((item)=> typeof item === "object")) {
+            return false
+        }
+        const filteredData = (parsedData as RowData[]).filter(item => item.id !== id)
+        localStorage.setItem(STORAGE_KEY , JSON.stringify(filteredData))
+        return true
+    }catch(e){
+        console.error(e)
+        return false
+    }
+}
+
+export { save_data_row , get_data_rows , delete_data_row }
