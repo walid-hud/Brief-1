@@ -4,6 +4,7 @@ import TailwindElement from "../utils/TailwindElement";
 import { animate } from "@lit-labs/motion";
 import { toast, type RowData } from "../utils";
 import { store } from "../state/store";
+import { save_data_row } from "../services/localstorage";
 @customElement("x-form")
 class Form extends TailwindElement {
   @state()
@@ -43,6 +44,7 @@ class Form extends TailwindElement {
       return;
     }
     store.state.push(data);
+    save_data_row(data)
     toast("item added successfully" , 4000, "success" );
     this._close();
     this.form.reset();

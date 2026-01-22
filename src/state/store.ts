@@ -1,3 +1,4 @@
+import { get_data_rows } from "../services/localstorage";
 import type { RowData } from "../utils";
 
 type Listener = () => void;
@@ -39,6 +40,6 @@ function createReactiveStore<T extends object>(initial: T) {
   };
 }
 
-
-const store = createReactiveStore(<RowData[]>([]));
+const initial = get_data_rows()
+const store = createReactiveStore(initial);
 export {store }
