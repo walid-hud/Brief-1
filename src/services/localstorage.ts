@@ -3,7 +3,8 @@ const STORAGE_KEY = "healthcare-data";
 
 function save_data_row(new_row:RowData):boolean{
     try{
-        let data  = localStorage.getItem(STORAGE_KEY)
+        let data  = localStorage
+        .getItem(STORAGE_KEY)
         if(!data){
             localStorage.setItem(STORAGE_KEY , JSON.stringify([new_row]))
             return true

@@ -31,7 +31,6 @@ class Pagination extends TailwindElement {
 
   render() {
     const pages = Array.from({ length: this.total_pages }, (_, i) => i + 1);
-
     return html`
       <div class="w-full flex justify-center gap-x-2 mt-2 items-center  ">
         <button
