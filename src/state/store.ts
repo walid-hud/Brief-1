@@ -14,7 +14,6 @@ function createReactiveStore<T extends object>(initial: T) {
     return () => listeners.delete(listener);
   }
 
-  // Recursive proxy generator
   function makeProxy(obj: any): any {
     return new Proxy(obj, {
       get(target, prop) {
@@ -55,7 +54,7 @@ const example_rows = [
 const initial = {
   rows:[
     ...get_data_rows() ,
-     ...example_rows
+    //  ...example_rows 
     ],
   current_page:1,
   rows_per_page:5
