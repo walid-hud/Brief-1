@@ -3,11 +3,9 @@ import { customElement } from "lit/decorators.js";
 import TailwindElement from "../utils/TailwindElement";
 import { ProxyStoreController } from "../controllers/store.controller";
 import { store, type State } from "../state/store";
-
 @customElement("x-pagination")
 class Pagination extends TailwindElement {
   store = new ProxyStoreController<State>(this, store);
-
   get total_pages() {
     return Math.ceil(store.state.rows.length / store.state.rows_per_page);
   }
