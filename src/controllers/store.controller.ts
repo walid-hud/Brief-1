@@ -1,11 +1,10 @@
 import type { ReactiveController, ReactiveControllerHost } from 'lit';
-
-export class ProxyStoreController implements ReactiveController {
+export class ProxyStoreController<State> implements ReactiveController {
   private unsubscribe?: () => void;
 
   constructor(
     private host: ReactiveControllerHost,
-    private store: { state:any, subscribe: (cb: () => void) => () => void }
+    private store: { state:State, subscribe: (cb: () => void) => () => void }
   ) {
     host.addController(this);
   }

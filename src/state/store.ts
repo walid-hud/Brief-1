@@ -1,8 +1,18 @@
 import { get_data_rows } from "../services/localstorage";
+import type { RowData } from "../utils";
+export type State = {
+   rows:RowData[],
+  current_page:number,
+  rows_per_page:number
 
+}
 type Listener = () => void;
+export type store<State> = {
+  state:State,
+  subscribe: (cb: () => void) => () => void;
+}
 
-function createReactiveStore<T extends object>(initial: T) {
+function createReactiveStore<T extends object>(initial: T) : store<T> {
   const listeners = new Set<Listener>();
 
   function notify() {
@@ -51,6 +61,7 @@ const example_rows = [
   { id: 10, ln: "Davis", fn: "Charlie", reason: "Routine Check", date: "2023-10-05", tel: "3333333333", email: "charlie.davis@example.com" }
 ];
 
+
 const initial = {
   rows:[
     ...get_data_rows() ,
@@ -59,5 +70,6 @@ const initial = {
   current_page:1,
   rows_per_page:5
 }
-const store = createReactiveStore(initial);
+
+const store = createReactiveStore<State>(initial);
 export {store }

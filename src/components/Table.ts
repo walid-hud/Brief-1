@@ -1,13 +1,13 @@
 import { html } from "lit";
 import { customElement, } from "lit/decorators.js";
 import TailwindElement from "../utils/TailwindElement";
-import { store } from "../state/store";
+import { type State, store } from "../state/store";
 import { ProxyStoreController } from "../controllers/store.controller";
 import { toast } from "../utils";
 import { delete_data_row } from "../services/localstorage";
 @customElement("x-table")
 export default class Table extends TailwindElement {
-  store = new ProxyStoreController(this , store)
+  store = new ProxyStoreController<State>(this , store)
 
   get paginated_data(){
     const start = (store.state.current_page - 1) * store.state.rows_per_page
