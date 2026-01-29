@@ -11,7 +11,7 @@ class App extends TailwindElement {
     return html`
     <x-toast-container></x-toast-container>
       <main
-        class="min-h-screen px-4 py-2 bg-linear-180 from-primary/20  via-muted-foreground/20  to-secondary "
+        class="min-h-screen px-4 py-2 bg-linear-180 from-primary/20 via-muted-foreground/20  to-secondary "
       >
         <nav class=" flex justify-between items-center">
           <div>

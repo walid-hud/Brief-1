@@ -12,7 +12,7 @@ export class ProxyStoreController implements ReactiveController {
   
   hostConnected() {
     this.unsubscribe = this.store.subscribe(() => {
-      this.host.requestUpdate();  
+      this.host.requestUpdate();
     });
   }
 

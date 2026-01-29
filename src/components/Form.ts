@@ -13,18 +13,23 @@ class Form extends TailwindElement {
   @query("form")
   form!: HTMLFormElement;
 
-  private _toggle() {
-    this.is_opened = !this.is_opened;
+  private _open() {
+    this.is_opened = true;
+    this.form.querySelectorAll("input").forEach(e=>e.disabled = false)
   }
   private _close() {
     this.is_opened = false;
+    this.form.reset();
+    this.form.querySelectorAll("input").forEach(e=>e.disabled = true)
     this.form.blur();
+    let last_active = document.activeElement
+    if(last_active){
+      (last_active as HTMLInputElement).blur()
+    } 
   }
   private _on_escape(ev: KeyboardEvent) {
     if (ev.key === "Escape") {
       this._close();
-      this.form.querySelectorAll("input").forEach(e=>e.blur())
-      this.form.blur()
     }
   }
 
@@ -62,10 +67,7 @@ class Form extends TailwindElement {
     const input = ev.target as HTMLInputElement;
     const value = input.value;
 
-    const onlyDigits = /^\d+$/.test(value);
-    const validLength = value.length >= 10;
-
-    if (!onlyDigits || !validLength) {
+    if (! /^\d+$/.test(value) || value.length !== 10  ) {
       input.setCustomValidity("Le numéro de téléphone n'est pas valide");
     } else {
       input.setCustomValidity("");
@@ -76,6 +78,7 @@ class Form extends TailwindElement {
     super.connectedCallback();
     window.addEventListener("keydown", this._on_escape.bind(this));
   }
+
   disconnectedCallback() {
     window.removeEventListener("keydown", this._on_escape);
     super.disconnectedCallback();
@@ -91,7 +94,7 @@ class Form extends TailwindElement {
         border border-muted-foreground shadow-md 
        "
         .disabled=${this.is_opened}
-        @click=${this._toggle}
+        @click=${this._open}
       >
         <span>ajouter une demande </span>
         <span>
@@ -148,7 +151,7 @@ class Form extends TailwindElement {
               <div>
                 <label required for="fn"> Prenom </label>
                 <input
-                  @change=${this._on_text_input_change}
+                  @input=${this._on_text_input_change}
                   required
                   type="text"
                   id="fn"
@@ -158,7 +161,7 @@ class Form extends TailwindElement {
               <div>
                 <label required for="ln"> Nom </label>
                 <input
-                  @change=${this._on_text_input_change}
+                  @input=${this._on_text_input_change}
                   required
                   type="text"
                   id="ln"
@@ -169,7 +172,7 @@ class Form extends TailwindElement {
             <div>
               <label required for="reason"> Motif </label>
               <input
-                @change=${this._on_text_input_change}
+                @input=${this._on_text_input_change}
                 required
                 type="text"
                 id="reason"
@@ -184,7 +187,7 @@ class Form extends TailwindElement {
             <div>
               <label required for="tel"> Telephone </label>
               <input
-                @change=${this._on_tel_input_change}
+                @input=${this._on_tel_input_change}
                 autocomplete="on"
                 required
                 type="tel"
