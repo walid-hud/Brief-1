@@ -13,8 +13,8 @@ function save_data_row(new_row:RowData):boolean{
          !(data as RowData[]).every((item)=> typeof item === "object")) {
             return false
         }
-        const existingData = data as RowData[]
-        existingData.push(new_row)
+        const existing_data = data as RowData[]
+        existing_data.push(new_row)
         localStorage.setItem(STORAGE_KEY , JSON.stringify(data))
         return true
     }catch(e){
