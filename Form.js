@@ -1,48 +1,49 @@
 import { html } from "lit";
-import { customElement, query, state } from "lit/decorators.js";
-import TailwindElement from "../utils/TailwindElement";
+import XElement from "../lib/XElement";
 import { animate } from "@lit-labs/motion";
-import { toast, type RowData } from "../utils";
 import { store } from "../state/store";
 import { save_data_row } from "../services/localstorage";
-@customElement("x-form")
-class Form extends TailwindElement {
-  @state()
-  is_opened: boolean = false;
+import { toast } from "../utils";
+import { define } from "../lib";
 
-  @query("form")
-  form!: HTMLFormElement;
+class Form extends XElement {
+  static properties = {
+    is_opened: { state: true },
+  };
 
-  private _open() {
-    this.is_opened = true;
-    this.form.querySelectorAll("input").forEach(e=>e.disabled = false)
-  }
-  private _close() {
+  constructor() {
+    super();
     this.is_opened = false;
-    this.form.reset();
-    this.form.querySelectorAll("input").forEach(e=>e.disabled = true)
-    this.form.blur();
-    let last_active = document.activeElement
-    if(last_active){
-      (last_active as HTMLInputElement).blur()
-    } 
   }
-  private _on_escape(ev: KeyboardEvent) {
+
+  get form() {
+    return this.renderRoot?.querySelector("form");
+  }
+
+  _toggle() {
+    this.is_opened = !this.is_opened;
+  }
+  _close() {
+    this.is_opened = false;
+    this.form.blur();
+    this.form.querySelectorAll("input").forEach(e=>e.blur())
+  }
+  _on_escape(ev) {
     if (ev.key === "Escape") {
       this._close();
     }
   }
 
-  private _on_submit(ev: SubmitEvent) {
+  _on_submit(ev) {
     ev.preventDefault();
-    const data : RowData = {
+    const data  = {
       id: Date.now(),
-      date: (this.form.querySelector("#date") as HTMLInputElement).value,
-      fn: (this.form.querySelector("#fn") as HTMLInputElement).value,
-      ln: (this.form.querySelector("#ln") as HTMLInputElement).value,
-      email: (this.form.querySelector("#email") as HTMLInputElement).value,
-      tel: (this.form.querySelector("#tel") as HTMLInputElement).value,
-      reason: (this.form.querySelector("#reason") as HTMLInputElement).value,
+      date: (this.form.querySelector("#date")  ).value,
+      fn: (this.form.querySelector("#fn")  ).value,
+      ln: (this.form.querySelector("#ln")  ).value,
+      email: (this.form.querySelector("#email")  ).value,
+      tel: (this.form.querySelector("#tel")  ).value,
+      reason: (this.form.querySelector("#reason")  ).value,
     }
     if (!this.form.checkValidity()) {
       this.form.reportValidity();
@@ -55,19 +56,22 @@ class Form extends TailwindElement {
     this.form.reset();
   }
 
-  private _on_text_input_change(ev: InputEvent) {
-    const input = ev.target as HTMLInputElement;
+  _on_text_input_change(ev) {
+    const input = ev.target  ;
     if (input.value.match(/\d+/g)) {
       input.setCustomValidity("Le message ne doit pas contenir de chiffre");
     } else {
       return input.setCustomValidity("");
     }
   }
-  private _on_tel_input_change(ev: InputEvent) {
-    const input = ev.target as HTMLInputElement;
+  _on_tel_input_change(ev) {
+    const input = ev.target  ;
     const value = input.value;
 
-    if (! /^\d+$/.test(value) || value.length !== 10  ) {
+    const onlyDigits = /^\d+$/.test(value);
+    const validLength = value.length >= 10;
+
+    if (!onlyDigits || !validLength) {
       input.setCustomValidity("Le numéro de téléphone n'est pas valide");
     } else {
       input.setCustomValidity("");
@@ -78,7 +82,6 @@ class Form extends TailwindElement {
     super.connectedCallback();
     window.addEventListener("keydown", this._on_escape.bind(this));
   }
-
   disconnectedCallback() {
     window.removeEventListener("keydown", this._on_escape);
     super.disconnectedCallback();
@@ -88,13 +91,13 @@ class Form extends TailwindElement {
     return html`
       <button
         class="
-      flex gap-x-2 items-center  text-nowrap lg:text-lg  bg-input  rounded-(--radius) px-4 py-2
+      flex gap-x-2 items-center  text-nowrap lg:text-lg font-medium bg-input  rounded-(--radius) px-4 py-2
       cursor-pointer hover:bg-input/60 transition-all duration-300 ease-in-out
        text-foreground active:scale-105 disabled:opacity-60 disabled:pointer-events-none pointer-events-auto
-        border border-muted-foreground shadow-md font-semibold
+        border border-muted-foreground shadow-md 
        "
         .disabled=${this.is_opened}
-        @click=${this._open}
+        @click=${this._toggle}
       >
         <span>ajouter</span>
         <span>
@@ -151,7 +154,7 @@ class Form extends TailwindElement {
               <div>
                 <label required for="fn"> Prenom </label>
                 <input
-                  @input=${this._on_text_input_change}
+                  @change=${this._on_text_input_change}
                   required
                   type="text"
                   id="fn"
@@ -161,7 +164,7 @@ class Form extends TailwindElement {
               <div>
                 <label required for="ln"> Nom </label>
                 <input
-                  @input=${this._on_text_input_change}
+                  @change=${this._on_text_input_change}
                   required
                   type="text"
                   id="ln"
@@ -172,7 +175,7 @@ class Form extends TailwindElement {
             <div>
               <label required for="reason"> Motif </label>
               <input
-                @input=${this._on_text_input_change}
+                @change=${this._on_text_input_change}
                 required
                 type="text"
                 id="reason"
@@ -187,7 +190,7 @@ class Form extends TailwindElement {
             <div>
               <label required for="tel"> Telephone </label>
               <input
-                @input=${this._on_tel_input_change}
+                @change=${this._on_tel_input_change}
                 autocomplete="on"
                 required
                 type="tel"
@@ -216,7 +219,7 @@ class Form extends TailwindElement {
                 class="
                       flex gap-x-2 items-center text-sm lg:text-lg font-medium bg-input  rounded-(--radius) px-2 py-1
                       cursor-pointer hover:bg-primary transition-all duration-300 ease-in-out
-                      text-foreground hover:text-accent active:scale-105 disabled:opacity-60 disabled:pointer-events-none pointer-events-auto
+                      text-foreground hover:text-accent active:scale-105 disabled:opacity-60 
                       border border-muted-foreground shadow-sm justify-center group
                        "
               >
@@ -247,7 +250,7 @@ class Form extends TailwindElement {
                 class="
                       flex gap-x-2 items-center text-sm lg:text-lg font-medium bg-input  rounded-(--radius) px-2 py-1
                       cursor-pointer hover:bg-destructive transition-all duration-300 ease-in-out
-                      text-foreground hover:text-accent active:scale-105 disabled:opacity-60 disabled:pointer-events-none pointer-events-auto
+                      text-foreground hover:text-accent active:scale-105 disabled:opacity-60 
                       border border-muted-foreground shadow-sm justify-center group
                        "
               >
@@ -275,5 +278,5 @@ class Form extends TailwindElement {
     `;
   }
 }
-
+define("x-form" , Form)
 export { Form };

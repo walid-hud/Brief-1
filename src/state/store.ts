@@ -1,22 +1,22 @@
 import { get_data_rows } from "../services/localstorage";
 import type { RowData } from "../utils";
 export type State = {
-   rows:RowData[],
-  current_page:number,
-  rows_per_page:number
-
-}
+  rows: RowData[];
+  current_page: number;
+  rows_per_page: number;
+};
 type Listener = () => void;
 export type store<State> = {
-  state:State,
+  state: State;
   subscribe: (cb: () => void) => () => void;
-}
+};
 
-function createReactiveStore<T extends object>(initial: T) : store<T> {
+function createReactiveStore<T extends object>(initial: T): store<T> {
   const listeners = new Set<Listener>();
 
   function notify() {
     for (const l of listeners) l();
+    console.log(listeners);
   }
 
   function subscribe(listener: Listener) {
@@ -29,7 +29,7 @@ function createReactiveStore<T extends object>(initial: T) : store<T> {
       get(target, prop) {
         const value = target[prop];
         // If nested object, make it reactive too
-        if (value && typeof value === 'object') {
+        if (value && typeof value === "object") {
           return makeProxy(value);
         }
         return value;
@@ -38,13 +38,13 @@ function createReactiveStore<T extends object>(initial: T) : store<T> {
         target[prop] = value;
         notify();
         return true;
-      }
+      },
     });
   }
 
   return {
     state: makeProxy(initial) as T,
-    subscribe
+    subscribe,
   };
 }
 
@@ -141,15 +141,11 @@ const example_rows = [
   },
 ];
 
-
 const initial = {
-  rows:[
-    ...get_data_rows() ,
-     ...example_rows
-    ],
-  current_page:1,
-  rows_per_page:5
-}
+  rows: [...get_data_rows(), ...example_rows],
+  current_page: 1,
+  rows_per_page: 5,
+};
 
 const store = createReactiveStore<State>(initial);
-export {store}
+export { store };
