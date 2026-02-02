@@ -28,7 +28,7 @@ export default class ToastContainer extends TailwindElement {
     return html`
       <div
         id="toast-container"
-        class="fixed  px-4 w-screen h-screen flex items-center flex-col  duration-200   z-9999 pointer-events-none"
+        class="fixed px-4 w-screen h-screen flex items-center flex-col duration-200 z-9999 pointer-events-none"
       >
         ${repeat(this.toasts, (toast) => toast.id, ({ id, message , variant }) => {
           return html`

@@ -17,7 +17,7 @@ function createReactiveStore<T extends object>(initial: T): store<T> {
   function notify() {
     for (const l of listeners) l();
   }
-
+  // TODO: subscribe to specific property changes
   function subscribe(listener: Listener) {
     listeners.add(listener);
     return () => listeners.delete(listener);
