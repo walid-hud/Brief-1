@@ -118,13 +118,11 @@ class Form extends TailwindElement {
       <div
         ${animate()}
         class="
-        scale-100
-        z-10
-        fixed pointer-events-auto top-0 left-0 
+        fixed top-0 left-0 
         w-screen h-screen backdrop-blur-md backdrop-brightness-75
         ${this.is_opened
-          ? "opacity-100 pointer-events-auto"
-          : " opacity-0 pointer-events-none"}
+          ? "opacity-100 pointer-events-auto "
+          : " opacity-0 pointer-events-none" }
         "
       >
         <div class="flex items-center justify-center h-screen ">
@@ -216,7 +214,7 @@ class Form extends TailwindElement {
                 class="
                       flex gap-x-2 items-center text-sm lg:text-lg font-medium bg-input  rounded-(--radius) px-2 py-1
                       cursor-pointer hover:bg-primary transition-all duration-300 ease-in-out
-                      text-foreground hover:text-accent active:scale-105 disabled:opacity-60 disabled:pointer-events-none pointer-events-auto
+                      text-foreground hover:text-accent active:scale-105 
                       border border-muted-foreground shadow-sm justify-center group
                        "
               >
@@ -247,7 +245,7 @@ class Form extends TailwindElement {
                 class="
                       flex gap-x-2 items-center text-sm lg:text-lg font-medium bg-input  rounded-(--radius) px-2 py-1
                       cursor-pointer hover:bg-destructive transition-all duration-300 ease-in-out
-                      text-foreground hover:text-accent active:scale-105 disabled:opacity-60 disabled:pointer-events-none pointer-events-auto
+                      text-foreground hover:text-accent active:scale-105 
                       border border-muted-foreground shadow-sm justify-center group
                        "
               >

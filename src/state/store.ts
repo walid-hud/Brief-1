@@ -16,7 +16,6 @@ function createReactiveStore<T extends object>(initial: T): store<T> {
 
   function notify() {
     for (const l of listeners) l();
-    console.log(listeners);
   }
 
   function subscribe(listener: Listener) {
