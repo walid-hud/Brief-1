@@ -118,7 +118,7 @@ class Form extends TailwindElement {
       <div
         ${animate()}
         class="
-        fixed top-0 left-0 
+        fixed top-0 left-0 z-9999 
         w-screen h-screen backdrop-blur-md backdrop-brightness-75
         ${this.is_opened
           ? "opacity-100 pointer-events-auto "
